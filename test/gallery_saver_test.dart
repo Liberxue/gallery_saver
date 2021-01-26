@@ -22,10 +22,16 @@ void main() {
   });
 
   test('save image', () async {
-    expect(await GallerySaver.saveImage('/storage/emulated/image.jpg'), true);
+    expect(
+        await GallerySaver.saveImage(
+            '/storage/emulated/image.jpg', "image.jpg"),
+        true);
   });
 
   test('save video', () async {
-    expect(await GallerySaver.saveVideo('/storage/emulated/video.mov'), false);
+    expect(
+        await GallerySaver.saveVideo(
+            '/storage/emulated/video.mov', "video.mov"),
+        false);
   });
 }
