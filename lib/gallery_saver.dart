@@ -18,7 +18,8 @@ class GallerySaver {
   static const MethodChannel _channel = const MethodChannel(channelName);
 
   ///saves video from provided temp path and optional album name in gallery
-  static Future<bool> saveVideo(String path, {String albumName}) async {
+  static Future<bool> saveVideo(String path, String fileName,
+      {String albumName}) async {
     File tempFile;
     if (path == null || path.isEmpty) {
       throw ArgumentError(pleaseProvidePath);
@@ -27,7 +28,7 @@ class GallerySaver {
       throw ArgumentError(fileIsNotVideo);
     }
     if (!isLocalFilePath(path)) {
-      tempFile = await _downloadFile(path);
+      tempFile = await _downloadFile(path, fileName);
       path = tempFile.path;
     }
     bool result = await _channel.invokeMethod(
@@ -41,7 +42,8 @@ class GallerySaver {
   }
 
   ///saves image from provided temp path and optional album name in gallery
-  static Future<bool> saveImage(String path, {String albumName}) async {
+  static Future<bool> saveImage(String path, String fileName,
+      {String albumName}) async {
     File tempFile;
     if (path == null || path.isEmpty) {
       throw ArgumentError(pleaseProvidePath);
@@ -50,7 +52,7 @@ class GallerySaver {
       throw ArgumentError(fileIsNotImage);
     }
     if (!isLocalFilePath(path)) {
-      tempFile = await _downloadFile(path);
+      tempFile = await _downloadFile(path, fileName);
       path = tempFile.path;
     }
 
@@ -65,13 +67,13 @@ class GallerySaver {
     return result;
   }
 
-  static Future<File> _downloadFile(String url) async {
+  static Future<File> _downloadFile(String url, String fileName) async {
     print(url);
     http.Client _client = new http.Client();
     var req = await _client.get(Uri.parse(url));
     var bytes = req.bodyBytes;
     String dir = (await getTemporaryDirectory()).path;
-    File file = new File('$dir/${basename(url)}');
+    File file = new File('$dir/${basename(fileName)}');
     await file.writeAsBytes(bytes);
     print('File size:${await file.length()}');
     print(file.path);
