@@ -24,7 +24,7 @@ class GallerySaver {
     if (path == null || path.isEmpty) {
       throw ArgumentError(pleaseProvidePath);
     }
-    if (!isVideo(path)) {
+    if (!isVideo(fileName)) {
       throw ArgumentError(fileIsNotVideo);
     }
     if (!isLocalFilePath(path)) {
@@ -48,7 +48,7 @@ class GallerySaver {
     if (path == null || path.isEmpty) {
       throw ArgumentError(pleaseProvidePath);
     }
-    if (!isImage(path)) {
+    if (!isImage(fileName)) {
       throw ArgumentError(fileIsNotImage);
     }
     if (!isLocalFilePath(path)) {
